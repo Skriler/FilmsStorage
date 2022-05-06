@@ -57,13 +57,53 @@ namespace FilmsStorage.DAL
                 }
             }
 
-            public static List<Film> ByUser(int userID)
+            public static Film Edit(Film editFilmModel)
             {
-                List<Film> userFilms = new List<Film>();
+                using (var db = new FilmsStorageDB())
+                {
+                    Film filmToEdit = db.Films.Where(f => f.FilmID == editFilmModel.FilmID).First();
+
+                    if (filmToEdit != null)
+                    {
+                        filmToEdit.FilmName = editFilmModel.FilmName;
+                        filmToEdit.ReleaseYear = editFilmModel.ReleaseYear;
+                        filmToEdit.fk_GenreID = editFilmModel.fk_GenreID;
+                        filmToEdit.FilmDescription = editFilmModel.FilmDescription;
+
+                        db.SaveChanges();
+                    }
+
+                    return filmToEdit;
+                }
+            }
+
+            public static Film Delete(int filmID)
+            {
+                Film deletedFile = null;
 
                 using (var db = new FilmsStorageDB())
                 {
-                    var searchResults = db.Films .Where(f => f.fk_UserID == userID);
+                    var searchResuls = db.Films.Where(f => f.FilmID == filmID);
+
+                    if (searchResuls.Any())
+                    {
+                        Film filmToDelete = searchResuls.First();
+
+                        deletedFile = db.Films.Remove(filmToDelete);
+                        db.SaveChanges();
+                    }
+                }
+
+                return deletedFile;
+            }
+
+            public static List<v_Film> ByUser(int userID)
+            {
+                List<v_Film> userFilms = new List<v_Film>();
+
+                using (var db = new FilmsStorageDB())
+                {
+                    var searchResults = db.v_Films.Where(f => f.UserID == userID);
 
                     if (searchResults.Any())
                     {
@@ -72,6 +112,40 @@ namespace FilmsStorage.DAL
                 }
 
                 return userFilms;
+            }
+
+            public static Film FilmByID(int filmID)
+            {
+                Film filmByID = null;
+
+                using (var db = new FilmsStorageDB())
+                {
+                    var searchResults = db.Films.Where(f => f.FilmID == filmID);
+
+                    if (searchResults.Any())
+                    {
+                        filmByID = searchResults.First();
+                    }
+                }
+
+                return filmByID;
+            }
+
+            public static v_Film ByID(int filmID)
+            {
+                v_Film filmByID = null;
+
+                using (var db = new FilmsStorageDB())
+                {
+                    var searchResults = db.v_Films.Where(f => f.FilmID == filmID);
+
+                    if (searchResults.Any())
+                    {
+                        filmByID = searchResults.First();
+                    }
+                }
+
+                return filmByID;
             }
         }
 

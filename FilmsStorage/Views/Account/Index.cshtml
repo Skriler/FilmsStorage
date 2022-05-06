@@ -8,6 +8,8 @@
 
 <h3>Your files:</h3>
 
-@{ @*Html.RenderAction()*@ }
+@{ Html.RenderPartial("ShowError"); }
+
+@{ Html.RenderAction("FilmsByUser", "Files"); }
 
 @{ Html.RenderPartial("SocialLinks"); }

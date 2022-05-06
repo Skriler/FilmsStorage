@@ -218,6 +218,9 @@
     <Compile Include="Models\Entities\User.cs">
       <DependentUpon>FilmsDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\v_Film.cs">
+      <DependentUpon>FilmsDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FilmAddModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Login\CustomPrincipal.cs" />
@@ -241,6 +244,9 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Shared\SocialLinks.cshtml" />
     <Content Include="Views\Files\Add.cshtml" />
+    <Content Include="Views\Shared\FilmsByUser.cshtml" />
+    <Content Include="Views\Files\Details.cshtml" />
+    <Content Include="Views\Files\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

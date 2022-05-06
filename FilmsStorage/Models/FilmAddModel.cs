@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using FilmsStorage.Models.Entities;
@@ -22,10 +19,8 @@ namespace FilmsStorage.Models
 
         public int UserID { get; set; }
 
-        [Required]
         public string FileName { get; set; }
 
-        [Required]
         public string FilePath { get; set; }
 
         public string FilmDescription { get; set; }

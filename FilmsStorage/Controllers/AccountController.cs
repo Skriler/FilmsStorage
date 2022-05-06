@@ -18,6 +18,9 @@ namespace FilmsStorage.Controllers
         //TODO: replace filter to custom
         public ActionResult Index()
         {
+            if (TempData["Error"] != null)
+                ViewBag.ErrorMsg = TempData["Error"].ToString();
+
             return View();
         }
 
@@ -36,6 +39,7 @@ namespace FilmsStorage.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.ErrorMsg = "Invalid login form";
+
                 return View();
             }
 
@@ -46,6 +50,7 @@ namespace FilmsStorage.Controllers
             if (registeredUser == null)
             {
                 ViewBag.ErrorMsg = "No such user";
+
                 return View();
             }
 
@@ -55,6 +60,7 @@ namespace FilmsStorage.Controllers
             if (!isPasswordValid)
             {
                 ViewBag.ErrorMsg = "Wrong password";
+
                 return View();
             }
 
@@ -89,6 +95,7 @@ namespace FilmsStorage.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.ErrorMsg = "Invalid register form";
+
                 return View(registerModel);
             }
 

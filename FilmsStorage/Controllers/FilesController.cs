@@ -14,14 +14,15 @@ namespace FilmsStorage.Controllers
     public class FilesController : BaseController
     {
         // GET: Files By User
-        public ActionResult ByUser()
+        public ActionResult FilmsByUser()
         {
             //TODO: Get Files Of Given User
-            List<Film> userFilms = _DAL.Films.ByUser(CurrentUser.UserID);
+            List<v_Film> userFilms = _DAL.Films.ByUser(CurrentUser.UserID);
 
-            return PartialView();
+            return PartialView(userFilms);
         }
 
+        #region Add
         //Show add file form
         public ViewResult Add()
         {
@@ -46,6 +47,13 @@ namespace FilmsStorage.Controllers
                 return View(addFilmModel);
             }
 
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ErrorMsg = "Invalid register form";
+
+                return View(addFilmModel);
+            }
+
             FileSaveResult fileInfo = _SL.Files.SaveFilm(Request.Files[0], CurrentUser.UserID);
 
             //If film was not saved in file system
@@ -63,11 +71,122 @@ namespace FilmsStorage.Controllers
             //If film was not added in DB
             if (!(addedFilm.FilmID > 0))
             {
-                _SL.Files.DeleteFilm(fileInfo);
+                _SL.Files.DeleteFilm(fileInfo.FilePath, fileInfo.FileName);
 
                 ViewBag.ErrorMsg = "File was not added";
 
                 return View(addFilmModel);
+            }
+
+            return RedirectToAction("Index", "Account");
+        }
+        #endregion
+
+        #region Edit
+        public ActionResult Edit(int id)
+        {
+            var filmByID = _DAL.Films.FilmByID(id);
+
+            if (filmByID == null)
+            {
+                TempData["Error"] = "No such film";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            //Check if file belongs to current user
+            if (filmByID.fk_UserID != CurrentUser.UserID)
+            {
+                TempData["Error"] = "You do not have permission to interact with this file";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            ViewData["Genres"] = _DAL.Genres.All();
+
+            return View(filmByID);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Film updatedFilm)
+        {
+            ViewData["Genres"] = _DAL.Genres.All();
+
+            //Check if file belongs to current user
+            if (updatedFilm.fk_UserID != CurrentUser.UserID)
+            {
+                TempData["Error"] = "You do not have permission to interact with this file";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ErrorMsg = "Invalid edit film form";
+
+                return View(updatedFilm);
+            }
+
+            Film editedFilm = _DAL.Films.Edit(updatedFilm);
+
+            if (editedFilm == null)
+            {
+                ViewBag.ErrorMsg = "File was not edited";
+
+                return View(updatedFilm);
+            }
+
+            return RedirectToAction("Index", "Account");
+        }
+        #endregion
+
+        public ActionResult Details(int id)
+        {
+            var filmByID = _DAL.Films.ByID(id);
+
+            if (filmByID == null)
+            {
+                TempData["Error"] = "No such film";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            //Check if file belongs to current user
+            if (filmByID.UserID != CurrentUser.UserID)
+            {
+                TempData["Error"] = "You do not have permission to interact with this file";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            return View(filmByID);
+        }
+
+        public RedirectToRouteResult Delete(int id)
+        {
+            Film filmByID = _DAL.Films.FilmByID(id);
+            
+            if (filmByID == null)
+            {
+                TempData["Error"] = "No such file to delete";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            //Check if file belongs to current user
+            if (filmByID.fk_UserID != CurrentUser.UserID)
+            {
+                TempData["Error"] = "You do not have permission to interact with this file";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            Film deletedFilm = _DAL.Films.Delete(id);
+            bool isFilmDeleted = _SL.Files.DeleteFilm(deletedFilm.FilePath, deletedFilm.FileName);
+
+            if (!isFilmDeleted)
+            {
+                TempData["Error"] = "Error deleting film file from file system";
             }
 
             return RedirectToAction("Index", "Account");

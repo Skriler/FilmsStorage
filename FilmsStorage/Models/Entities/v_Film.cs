@@ -11,30 +11,17 @@ namespace FilmsStorage.Models.Entities
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Film
-    {
-        [Required]
-        public long FilmID { get; set; }
-
-        [Required]
-        public string FilmName { get; set; }
-
-        [Required]
-        public int ReleaseYear { get; set; }
-
-        public int fk_GenreID { get; set; }
-
-        public int fk_UserID { get; set; }
-
-        public string FileName { get; set; }
-
-        public string FilePath { get; set; }
-
-        public string FilmDescription { get; set; }
     
-        public virtual Genre Genre { get; set; }
-        public virtual User User { get; set; }
+    public partial class v_Film
+    {
+        public long FilmID { get; set; }
+        public string FilmName { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+        public string FilmDescription { get; set; }
+        public int ReleaseYear { get; set; }
+        public int UserID { get; set; }
+        public int GenreID { get; set; }
+        public string GenreName { get; set; }
     }
 }

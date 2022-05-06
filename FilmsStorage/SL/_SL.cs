@@ -141,21 +141,24 @@ namespace FilmsStorage.SL
                 return fileSaveResult;
             }
 
-            public static void DeleteFilm(FileSaveResult fileInfo)
+            public static bool DeleteFilm(string filePath, string fileName)
             {
-                try
-                {
-                    string fileDeleteFullPath = Path.Combine(fileInfo.FilePath, fileInfo.FileName);
+                bool fileDeleteResult = false;
 
-                    if (File.Exists(fileDeleteFullPath))
+                string fileFullPath = Path.Combine(filePath, fileName);
+
+                if (File.Exists(fileFullPath))
+                {
+                    try
                     {
-                        File.Delete(fileDeleteFullPath);
-                    }
-                }
-                catch (Exception ex)
-                {
+                        File.Delete(fileFullPath);
 
+                        fileDeleteResult = true;
+                    }
+                    catch { }
                 }
+
+                return fileDeleteResult;
             }
         }
     }
