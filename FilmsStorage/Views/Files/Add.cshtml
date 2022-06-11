@@ -1,7 +1,7 @@
 ﻿@model FilmsStorage.Models.FilmAddModel
 
 @{
-    ViewBag.Title = "Upload Film";
+    ViewBag.Title = FilmsStorage.Resources.Views.Files.Add.UploadFilm;
 
     var genresSelectedListItems = new List<SelectListItem>();
 
@@ -11,7 +11,7 @@
     }
 }
 
-<h2>Upload Film</h2>
+<h2>@FilmsStorage.Resources.Views.Files.Add.UploadFilm</h2>
 
 @using (Html.BeginForm(
     actionName: "Add",
@@ -23,11 +23,11 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>FilmAddModel</h4>
+        <h4>@FilmsStorage.Resources.Views.Files.Add.FilmAddModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.FilmName, labelText: "Film Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FilmName, labelText: @FilmsStorage.Resources.Views.Files.Add.FilmName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FilmName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FilmName, "", new { @class = "text-danger" })
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ReleaseYear, labelText: "Release Year", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ReleaseYear, labelText: @FilmsStorage.Resources.Views.Files.Add.ReleaseYear, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ReleaseYear, new { htmlAttributes = new { @class = "form-control", min = "1960", max = DateTime.Now.Year.ToString() } })
                 @Html.ValidationMessageFor(model => model.ReleaseYear, "", new { @class = "text-danger" })
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.GenreID, labelText: "Genre", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.GenreID, labelText: @FilmsStorage.Resources.Views.Files.Add.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(m => m.GenreID, genresSelectedListItems)
                 @Html.ValidationMessageFor(model => model.GenreID, "", new { @class = "text-danger" })
@@ -51,14 +51,14 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FileName, labelText: "Choose file", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FileName, labelText: @FilmsStorage.Resources.Views.Files.Add.ChooseFile, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="file" name="film" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FilmDescription, labelText: "Description", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FilmDescription, labelText: @FilmsStorage.Resources.Views.Files.Add.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.FilmDescription, htmlAttributes: new { @class = "form-control", cols = "50", rows = "4" })
                 @Html.ValidationMessageFor(model => model.FilmDescription, "", new { @class = "text-danger" })
@@ -67,7 +67,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Upload Film" class="btn btn-success" />
+                <input type="submit" value=@FilmsStorage.Resources.Views.Files.Add.UploadFilm class="btn btn-success" />
             </div>
         </div>
     </div>

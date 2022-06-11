@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Profile";
+    ViewBag.Title = FilmsStorage.Resources.Views.Account.Index.PageTitle;
 }
 
-<h2>Profile</h2>
+<h2>@FilmsStorage.Resources.Views.Account.Index.YourProfile</h2>
 
-<div>Hello @HttpContext.Current.User.Identity.Name</div>
+<div>@FilmsStorage.Resources.Views.Account.Index.Hello @HttpContext.Current.User.Identity.Name</div>
 
-<h3>Your files:</h3>
+<h3>@FilmsStorage.Resources.Views.Account.Index.YourFiles:</h3>
 
 @{ Html.RenderPartial("ShowError"); }
 

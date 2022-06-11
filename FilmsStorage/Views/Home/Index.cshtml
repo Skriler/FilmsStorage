@@ -1,7 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = FilmsStorage.Resources.Views.Home.Index.IndexHeader;
 }
 
-<h2>Index</h2>
+<h2>@FilmsStorage.Resources.Views.Home.Index.IndexHeader</h2>
 
+@Html.ActionLink(FilmsStorage.Resources.Views.Home.Index.AttributeRouteTest, "RouteTest", new { a = 1, b = 2 })

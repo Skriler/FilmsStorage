@@ -87,6 +87,13 @@ namespace FilmsStorage.SL
 
                 HttpContext.Current.Response.Cookies.Add(authCookie);
             }
+
+            public static void SetLanguageCookie(string webSiteLang)
+            {
+                HttpCookie langCookie = new HttpCookie("WebSiteLang", webSiteLang) { Expires = DateTime.MaxValue };
+
+                HttpContext.Current.Response.Cookies.Add(langCookie);
+            }
         }
 
         public static class Files
@@ -159,6 +166,42 @@ namespace FilmsStorage.SL
                 }
 
                 return fileDeleteResult;
+            }
+        }
+
+        public static class StringValidator
+        {
+            public static bool IsContainMinimumSpecialSymbols(string str, int minAmount) 
+            {
+                int specialSymbolsAmount = 0;
+
+                foreach(char symbol in str)
+                {
+                    if (IsSpecialSymbol(symbol))
+                        specialSymbolsAmount++;
+                }
+
+                return specialSymbolsAmount >= minAmount;
+            }
+
+            private static bool IsSpecialSymbol(char symbol)
+            {
+                string specialSymbols = "[]{}()^-=$!|?*+.,@#%&~";
+
+                return specialSymbols.Contains(symbol.ToString());
+            }
+
+            public static bool IsAlternationUpperAndLowerCaseSymbols(string str)
+            {
+                for (int i = 0; i < str.Length - 1; ++i)
+                {
+                    if (Char.IsLower(str[i]) == Char.IsLower(str[i + 1]) &&
+                        !IsSpecialSymbol(str[i]) &&
+                        !IsSpecialSymbol(str[i + 1]))
+                        return false;
+                }
+
+                return true;
             }
         }
     }

@@ -19,19 +19,24 @@ namespace FilmsStorage.Models.Entities
         public long FilmID { get; set; }
 
         [Required]
+        [Display(Name = "FilmName", ResourceType = typeof(Resources.Views.Files.Edit))]
         public string FilmName { get; set; }
 
         [Required]
+        [Display(Name = "ReleaseYear", ResourceType = typeof(Resources.Views.Files.Edit))]
         public int ReleaseYear { get; set; }
 
         public int fk_GenreID { get; set; }
 
         public int fk_UserID { get; set; }
 
+        [Display(Name = "FileName", ResourceType = typeof(Resources.Views.Files.Edit))]
         public string FileName { get; set; }
 
+        [Display(Name = "FilePath", ResourceType = typeof(Resources.Views.Files.Edit))]
         public string FilePath { get; set; }
 
+        [Display(Name = "FilmDescription", ResourceType = typeof(Resources.Views.Files.Edit))]
         public string FilmDescription { get; set; }
     
         public virtual Genre Genre { get; set; }

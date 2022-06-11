@@ -5,46 +5,60 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Films Storage</title>
+    <title>@ViewBag.Title - @FilmsStorage.Resources.Layouts._Layout.ApplicationName</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modern")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            @*<div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>*@
-            <div class="">
-                <ul class="nav navbar-nav">
+            <div class="navbar navbar-expand-lg navbar-light bg-light">
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        @Html.ActionLink(FilmsStorage.Resources.Layouts._Layout.NavHome,
+                            "Index", "Home", null, new { @class = "btn btn-info" })
+
+                        @Html.ActionLink(FilmsStorage.Resources.Layouts._Layout.ChangeLanguage,
+                            "ChangeLanguage", "Home", null, new { @class = "btn btn-success" })
+                    </li>
+
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("My profile", "Index", "Account", null, new { @class = "btn btn-info" })</li>
-                        <li>@Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "btn btn-danger" })</li>
+                        <li>
+                            @Html.ActionLink(FilmsStorage.Resources.Layouts._Layout.NavMyProfile,
+                                "Index", "Account", null, new { @class = "btn btn-info" })
+                        </li>
+                        <li>
+                            @Html.ActionLink(FilmsStorage.Resources.Layouts._Layout.NavLogout,
+                                "Logout", "Account", null, new { @class = "btn btn-danger" })
+                        </li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Register account", "Register", "Account", null, new { @class = "btn btn-info" })</li>
-                        <li>@Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn btn-success" })</li>
+                        <li>
+                            @Html.ActionLink(FilmsStorage.Resources.Layouts._Layout.NavRegister,
+                                "Register", "Account", null, new { @class = "btn btn-info" })
+                        </li>
+                        <li>
+                            @Html.ActionLink(FilmsStorage.Resources.Layouts._Layout.NavLogin, "" +
+                                "Login", "Account", null, new { @class = "btn btn-success" })
+                        </li>
                     }
                 </ul>
             </div>
         </div>
     </div>
 
+    @Scripts.Render("~/bundles/js")
+
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Films Storage</p>
+            <p>&copy; @DateTime.Now.Year - @FilmsStorage.Resources.Layouts._Layout.ApplicationName</p>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/js")
+    @RenderSection("customScripts", required: false)
 </body>
 </html>

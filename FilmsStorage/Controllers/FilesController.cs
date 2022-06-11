@@ -6,6 +6,7 @@ using FilmsStorage.Models;
 using FilmsStorage.DAL;
 using FilmsStorage.SL;
 using FilmsStorage.Models.Entities;
+using FilmsStorage.Filters;
 
 namespace FilmsStorage.Controllers
 {
@@ -83,6 +84,7 @@ namespace FilmsStorage.Controllers
         #endregion
 
         #region Edit
+        [LogIt("Show file edit view")]
         public ActionResult Edit(int id)
         {
             var filmByID = _DAL.Films.FilmByID(id);
@@ -162,9 +164,25 @@ namespace FilmsStorage.Controllers
             return View(filmByID);
         }
 
-        public RedirectToRouteResult Delete(int id)
+        public ActionResult Details4JS(int filmID)
         {
-            Film filmByID = _DAL.Films.FilmByID(id);
+            var filmByID = _DAL.Films.ByID(filmID);
+
+            //Check if file belongs to current user
+            if (filmByID.UserID != CurrentUser.UserID)
+            {
+                TempData["Error"] = "You do not have permission to interact with this file";
+
+                return RedirectToAction("Index", "Account");
+            }
+
+            //Note: don't use JsonRequestBehavior.AllowGet at prod!
+            return Json(filmByID, JsonRequestBehavior.AllowGet);
+        }
+
+        public RedirectToRouteResult Delete(int filmID, int userID)
+        {
+            Film filmByID = _DAL.Films.FilmByID(filmID);
             
             if (filmByID == null)
             {
@@ -181,7 +199,7 @@ namespace FilmsStorage.Controllers
                 return RedirectToAction("Index", "Account");
             }
 
-            Film deletedFilm = _DAL.Films.Delete(id);
+            Film deletedFilm = _DAL.Films.Delete(filmID);
             bool isFilmDeleted = _SL.Files.DeleteFilm(deletedFilm.FilePath, deletedFilm.FileName);
 
             if (!isFilmDeleted)
